@@ -1,19 +1,38 @@
-var demo = {};
+var demo = {}, centerX = 1500 / 2, centerY = 1000 / 2, bunny, speed = 4;
+
 demo.state1 = function(){};
 demo.state1.prototype = {
-    preload: function(){},
+    preload: function(){
+        game.load.image('bunny', 'assets/sprites/bunny.png');
+    },
     create: function(){
         game.stage.backgroundColor = '#f4eb42';
         console.log('state1');
         addChangeStateEventListeners();
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        
+        bunny = game.add.sprite(centerX, centerY, 'bunny');
+        bunny.anchor.setTo(0.5, 0.5);
     },
-    update: function(){}    
+    update: function(){
+        if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+            bunny.x += speed;
+        }
+        else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+            bunny.x -= speed;
+        }
+        if (game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+            bunny.y -= speed;
+        }
+        else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+            bunny.y += speed;
+        }
+        
+    }    
 };
 
 
 function changeState(i, stateNum){
-    console.log(i);
     game.state.start('state' + stateNum);
 };
 
@@ -30,3 +49,4 @@ function addChangeStateEventListeners(){
     addKeyCallback(Phaser.Keyboard.FOUR, changeState, 4);
     addKeyCallback(Phaser.Keyboard.FIVE, changeState, 5);
 };
+
